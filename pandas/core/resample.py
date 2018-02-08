@@ -868,6 +868,8 @@ class DatetimeIndexResamplerGroupby(_GroupByMixin, DatetimeIndexResampler):
     def _constructor(self):
         return DatetimeIndexResampler
 
+    _gotitem = DatetimeIndexResampler._gotitem
+
 
 class PeriodIndexResampler(DatetimeIndexResampler):
 

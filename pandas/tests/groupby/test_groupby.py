@@ -2758,6 +2758,12 @@ class TestGroupBy(MixIn):
         with tm.assert_raises_regex(KeyError, "(7, 8)"):
             df.groupby((7, 8)).mean()
 
+    def test_groupby_rolling_agg(self):
+        # GH 15072
+        # data = pd.DataFrame({"stock": [1, 1, 1, 2, 2, 2, 2], "low": [10, 20, 30, 10, 30, 40, 80]})
+        # data.set_index("stock", inplace=True)
+        # data.groupby(level="stock").rolling(2).agg({"low": {"mean": "mean", "max": "max"}})
+
 
 def _check_groupby(df, result, keys, field, f=lambda x: x.sum()):
     tups = lmap(tuple, df[keys].values)

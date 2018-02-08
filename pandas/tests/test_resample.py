@@ -3243,6 +3243,21 @@ class TestResamplerGrouper(object):
         expected.columns = result.columns
         assert_frame_equal(result, expected)
 
+    def test_multiple_aggs(self):
+        # GH 15072
+        df = pd.DataFrame({"A": pd.to_datetime(['2015', '2017']), "B": [1, 1]})
+        df.set_index("A", inplace=True)
+
+        resampled = df.groupby([0, 0]).resample("AS")
+
+        expected = pd.concat([resampled.agg('sum'), resampled.agg('count')],
+                             axis=1)
+        expected.columns = pd.MultiIndex.from_tuples([('B', 'sum'),
+                                                      ('B', 'count')])
+        import pudb; pudb.set_trace()
+        result = resampled.agg(['sum', 'count'])
+        assert_frame_equal(result, expected)
+
 
 class TestTimeGrouper(object):
 
